@@ -910,7 +910,7 @@ func (p *H265Packet) Unmarshal(payload []byte) ([]byte, error) {
 		// merge all NALUs while condition A or condition B are true
 		for len(p.naluBuffer) > 0 && (p.naluBuffer[0].DON < minDONL || len(p.naluBuffer) > int(p.depackBufNALUs)) {
 			// TODO: this is not actually correct following B.2.2, not all NALUs have a 4-byte start code.
-			buf = append(buf, annexbNALUStartCode()...)
+			buf = append(buf, annexbNALUStartCode...)
 			buf = append(buf, p.naluBuffer[0].NALU...)
 			p.naluBuffer = p.naluBuffer[1:]
 		}
@@ -918,7 +918,7 @@ func (p *H265Packet) Unmarshal(payload []byte) ([]byte, error) {
 		// return the nalu buffer joined together
 		for _, val := range p.naluBuffer {
 			// TODO: this is not actually correct following B.2.2, not all NALUs have a 4-byte start code.
-			buf = append(buf, annexbNALUStartCode()...)
+			buf = append(buf, annexbNALUStartCode...)
 			buf = append(buf, val.NALU...)
 		}
 		p.naluBuffer = nil
